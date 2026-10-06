@@ -43,15 +43,69 @@ def test_analyze_accepts_docx_and_returns_result_shape() -> None:
     assert response.status_code == 200
     result = response.json()
     assert set(result) == {
+        "job_title",
         "match_score",
         "score_breakdown",
         "matched_skills",
         "missing_skills",
+        "preferred_skills",
+        "matched_preferred_skills",
+        "missing_preferred_skills",
+        "required_skills",
         "resume_skills",
         "job_keywords",
+        "skill_categories",
+        "experience_requirements",
+        "required_qualifications",
+        "preferred_qualifications",
+        "learning_roadmap",
         "suggestions",
+        "resume_profile",
+        "job_analyses",
+        "recommendations",
     }
     assert result["matched_skills"] == ["Python", "FastAPI", "SQL", "Docker", "Communication"]
+    assert result["resume_profile"]["technical_skills"]
+
+
+def test_analyze_ranks_multiple_job_descriptions() -> None:
+    resume = make_docx(
+        "Jordan Lee\n"
+        "SKILLS\nPython, SQL, FastAPI, Docker\n"
+        "EDUCATION\nB.S. Computer Science\n"
+        "EXPERIENCE\nBuilt Python APIs and improved performance by 30%."
+    )
+    response = client.post(
+        "/api/analyze",
+        files={"resume": ("resume.docx", resume, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")},
+        data={
+            "job_descriptions": [
+                "Software Engineer\nRequired: Python, SQL, FastAPI, and Docker skills to build APIs.",
+                "Marketing Manager\nRequired: Tableau, Power BI, and Excel skills to plan campaigns.",
+            ]
+        },
+    )
+
+    assert response.status_code == 200, response.text
+    result = response.json()
+    assert len(result["job_analyses"]) == 2
+    assert result["recommendations"][0]["match_score"] >= result["recommendations"][1]["match_score"]
+    assert result["job_title"] == result["recommendations"][0]["job_title"]
+
+
+def test_analyze_accepts_uploaded_text_job_description() -> None:
+    resume = make_docx("Python developer with SQL experience building software APIs for internal teams.")
+    description = b"Backend Engineer\nSeeking a Python developer with SQL skills to build reliable software APIs."
+    response = client.post(
+        "/api/analyze",
+        files=[
+            ("resume", ("resume.docx", resume, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")),
+            ("job_files", ("backend-role.txt", description, "text/plain")),
+        ],
+    )
+
+    assert response.status_code == 200, response.text
+    assert response.json()["job_analyses"][0]["job_title"] == "Backend Engineer"
 
 
 def test_analyze_rejects_unsupported_file_type() -> None:

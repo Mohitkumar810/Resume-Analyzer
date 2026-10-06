@@ -20,7 +20,7 @@
       <section class="hero text-center mx-auto mb-5">
         <p class="eyebrow mb-2">RESUME ANALYZER & JOB MATCHER</p>
         <h1 class="display-5 fw-bold mb-3">Make your next application a better match.</h1>
-        <p class="lead text-secondary mb-0">Compare your resume to a role and see which skills already align and what to strengthen.</p>
+        <p class="lead text-secondary mb-0">See which skills already align, what to strengthen, and how multiple roles compare.</p>
       </section>
 
       <div class="row justify-content-center g-4">
@@ -28,7 +28,7 @@
           <section class="card form-card border-0 shadow-sm" aria-labelledby="form-heading">
             <div class="card-body p-4 p-md-5">
               <h2 id="form-heading" class="h4 fw-bold mb-1">Start your analysis</h2>
-              <p class="text-secondary mb-4">Your resume is processed temporarily and is not saved.</p>
+              <p class="text-secondary mb-4">Files are processed temporarily and are not saved. Analysis is explainable and heuristic-based.</p>
 
               <form id="analysis-form">
                 <div class="mb-4">
@@ -36,13 +36,15 @@
                   <input class="form-control form-control-lg" type="file" id="resume" name="resume" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
                   <div class="form-text">PDF or DOCX, up to 5 MB. Scanned PDFs without selectable text are not supported.</div>
                 </div>
-                <div class="mb-4">
-                  <label for="job-description" class="form-label fw-semibold">Job description</label>
-                  <textarea class="form-control" id="job-description" name="job_description" rows="9" minlength="30" maxlength="20000" placeholder="Paste the job description here..." required></textarea>
-                  <div class="d-flex justify-content-between form-text">
-                    <span>Include the responsibilities and qualifications for the role.</span>
-                    <span id="character-count">0 / 20,000</span>
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+                    <label class="form-label fw-semibold mb-0">Job descriptions</label>
+                    <button class="btn btn-outline-primary btn-sm" id="add-job" type="button">Add another job</button>
                   </div>
+                  <div id="job-list"></div>
+                  <div class="form-text mb-3">Paste up to 10 descriptions to rank roles, or upload PDF, DOCX, or TXT files.</div>
+                  <label for="job-files" class="form-label fw-semibold">Upload job descriptions (optional)</label>
+                  <input class="form-control" type="file" id="job-files" name="job_files" accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" multiple>
                 </div>
                 <button class="btn btn-primary btn-lg w-100" id="submit-button" type="submit">
                   <span class="button-label">Analyze my match</span>
@@ -56,12 +58,25 @@
           <section id="results" class="d-none mt-4" aria-label="Analysis results" aria-live="polite"></section>
 
           <p class="privacy-note text-center small text-secondary mt-4">
-            This tool provides informational feedback, not a hiring decision. It does not retain your uploaded resume or analysis.
+            Match percentages are heuristic estimates, not hiring decisions. Add measurable, truthful details; the tool does not retain your resume or analysis.
           </p>
         </div>
       </div>
     </main>
 
+    <template id="job-template">
+      <div class="job-input card card-body mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <label class="form-label fw-semibold mb-0">Job description <span class="job-number"></span></label>
+          <button class="btn btn-link btn-sm text-danger remove-job d-none" type="button">Remove</button>
+        </div>
+        <textarea class="form-control job-description" name="job_descriptions" rows="7" minlength="30" maxlength="20000" placeholder="Paste responsibilities and qualifications..." required></textarea>
+        <div class="d-flex justify-content-between form-text">
+          <span>At least 30 characters</span>
+          <span class="character-count">0 / 20,000</span>
+        </div>
+      </div>
+    </template>
     <script src="/assets/app.js" defer></script>
   </body>
 </html>

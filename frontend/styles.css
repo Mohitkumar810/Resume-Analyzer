@@ -79,6 +79,26 @@ body {
   color: #99521c;
 }
 
+.recommendation {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid #e8ebf3;
+}
+
+.recommendation:last-child {
+  border-bottom: 0;
+}
+
+.recommendation-score {
+  color: var(--brand);
+  font-size: 1.1rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.preserve-lines {
+  white-space: pre-line;
+}
+
 .result-section + .result-section {
   border-top: 1px solid #e8ebf3;
 }
