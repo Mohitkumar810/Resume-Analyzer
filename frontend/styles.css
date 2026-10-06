@@ -1,0 +1,97 @@
+:root {
+  color-scheme: light;
+  --ink: #172b4d;
+  --muted: #66758c;
+  --brand: #4659d8;
+  --surface: #ffffff;
+  --background: #f5f7fc;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--ink);
+}
+
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid #e8ebf3;
+}
+
+.navbar-brand {
+  color: var(--ink);
+  letter-spacing: -0.03em;
+}
+
+.hero {
+  max-width: 760px;
+}
+
+.hero h1 {
+  letter-spacing: -0.04em;
+}
+
+.eyebrow {
+  color: var(--brand);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.form-card,
+.result-card {
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.form-control:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 0.2rem rgb(70 89 216 / 15%);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--brand);
+  --bs-btn-border-color: var(--brand);
+  --bs-btn-hover-bg: #3547c2;
+  --bs-btn-hover-border-color: #3547c2;
+}
+
+.score-number {
+  color: var(--brand);
+  font-size: clamp(3.5rem, 9vw, 5.5rem);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  line-height: 1;
+}
+
+.skill-chip {
+  display: inline-flex;
+  margin: 0.2rem;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: #eef0ff;
+  color: #3444a8;
+  font-size: 0.875rem;
+}
+
+.skill-chip.missing {
+  background: #fff3e8;
+  color: #99521c;
+}
+
+.result-section + .result-section {
+  border-top: 1px solid #e8ebf3;
+}
+
+.privacy-note {
+  max-width: 650px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (max-width: 575.98px) {
+  .navbar .small {
+    max-width: 130px;
+    text-align: right;
+  }
+}
